@@ -36,6 +36,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4990992724824662}
+  - component: {fileID: 65629155561069244}
   m_Layer: 0
   m_Name: FloorTile_01
   m_TagString: Untagged
@@ -85,8 +86,8 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 9111c81e657a36643960ebc81261cd60, type: 3}
-  - {fileID: 2100002, guid: 9111c81e657a36643960ebc81261cd60, type: 3}
+  - {fileID: 2100000, guid: 4eb166482d7bdc04d873a20fc9d7f070, type: 2}
+  - {fileID: 2100000, guid: cfa415b2b30fdad408c8deb3a3cb4016, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -113,3 +114,15 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1057416075374120}
   m_Mesh: {fileID: 4300002, guid: 9111c81e657a36643960ebc81261cd60, type: 3}
+--- !u!65 &65629155561069244
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1690809517597216}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
