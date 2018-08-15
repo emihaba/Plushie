@@ -9,7 +9,7 @@ public class ObjectRotation : MonoBehaviour
 	public float rotationSpeed = 10;
 	public float snapSpeed = 10;
 	bool isRotating = false;
-	bool isSnaping = false;
+	public bool isSnaping = false;
 	float[] snapAngles = { 0, 90, 180, 270 };
 	Quaternion snapRotation;
 

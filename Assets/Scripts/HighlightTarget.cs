@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HighlightTarget : MonoBehaviour
 {
-	Highlightable currentHighlightable;
+	Tile currentlyHighlightedTile = null;
 
 	void Update()
 	{
@@ -15,34 +15,39 @@ public class HighlightTarget : MonoBehaviour
 
 		if (Physics.Raycast(ray, out hit))
 		{
-			Highlightable highlightable = hit.collider.gameObject.GetComponent<Highlightable>();
+            Tile tile = hit.collider.gameObject.GetComponent<Tile>();
 
-			if (highlightable != null)
+			if (tile != null && tile.walkable)
 			{
 
-				if (currentHighlightable != highlightable)
+				if (currentlyHighlightedTile != tile)
 				{
-					if (currentHighlightable != null)
+					if (currentlyHighlightedTile != null)
 					{
-						currentHighlightable.Unhighlight();
+                        currentlyHighlightedTile.Unhighlight();
 					}
 
-					currentHighlightable = highlightable;
-					Debug.Log("Kupka");
-					highlightable.Highlight();
+                    currentlyHighlightedTile = tile;
+					tile.Highlight();
 				}
 
 			}
 			else
 			{
-				currentHighlightable.Unhighlight();
-				currentHighlightable = null;
+                if(currentlyHighlightedTile != null)
+                {
+                    currentlyHighlightedTile.Unhighlight();
+                    currentlyHighlightedTile = null;
+                }
 			}
 
 		}
 		else
 		{
-			currentHighlightable.Unhighlight();
+            if (currentlyHighlightedTile != null)
+            {
+                currentlyHighlightedTile.Unhighlight();
+            }
 		}
 
 
