@@ -36,7 +36,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4827791028705904}
-  - component: {fileID: 114585601309367520}
+  - component: {fileID: 114007338220932594}
   m_Layer: 0
   m_Name: Lower Wall Tile 01
   m_TagString: Wall
@@ -114,7 +114,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1412101309074844}
   m_Mesh: {fileID: 4300000, guid: f112e2a0f8cd9414a82dc215a55e551c, type: 3}
---- !u!114 &114585601309367520
+--- !u!114 &114007338220932594
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
