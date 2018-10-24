@@ -5,176 +5,179 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
 
-    List<Tile> walkableTiles = new List<Tile>();
-    GameObject[] tiles;
+	public List<Tile> walkableTiles = new List<Tile>();
+	GameObject[] tiles;
 
-    Stack<Tile> path = new Stack<Tile>();
-    Tile currentTile;
+	Stack<Tile> path = new Stack<Tile>();
+	Tile currentTile;
 
-    public float jumpHeight = 1;
-    public float moveSpeed = 2;
+	public float jumpHeight = 1;
+	public float moveSpeed = 2;
 
-    Vector3 velocity = new Vector3();
-    Vector3 headingDirection = new Vector3();
+	Vector3 velocity = new Vector3();
+	Vector3 headingDirection = new Vector3();
 
-    float halfHeight = 0;
+	float halfHeight = 0;
 
-    void Start()
-    {
-        tiles = GameObject.FindGameObjectsWithTag("Tile");
+	public LayerMask layerMask = 9;
 
-        halfHeight = GetComponent<Collider>().bounds.extents.y;
-    }
+	void Start()
+	{
+		tiles = GameObject.FindGameObjectsWithTag("Tile");
 
-    void Update()
-    {
-        FindWalkableTiles();
-        CheckMouse();
-        Move();
-    }
+		halfHeight = GetComponent<Collider>().bounds.extents.y;
+	}
 
-    public void GetCurrentTile()
-    {
-        currentTile = GetTargetTile(gameObject);
-        currentTile.current = true;
-        
-    }
+	void Update()
+	{
+		FindWalkableTiles();
+		CheckMouse();
+		Move();
+	}
 
-    public Tile GetTargetTile(GameObject target)
-    {
-        RaycastHit hit;
-        Tile tile = null;
+	public void GetCurrentTile()
+	{
+		currentTile = GetTargetTile(gameObject);
+		currentTile.current = true;
 
-        if(Physics.Raycast(target.transform.position, -Vector3.up, out hit))
-        {
-            tile = hit.collider.GetComponent<Tile>();
-        }
+	}
 
-        return tile;
+	public Tile GetTargetTile(GameObject target)
+	{
+		RaycastHit hit;
+		Tile tile = null;
 
-    }
+		if (Physics.Raycast(target.transform.position, -Vector3.up, out hit, 1000, layerMask))
+		{
+			tile = hit.collider.GetComponent<Tile>();
+		}
 
-    public void ComputeNeighbours()
-    {
-        foreach (GameObject tile in tiles)
-        {
-            Tile t = tile.GetComponent<Tile>();
-            t.FindNeighbours(jumpHeight);
-        }
-    }
+		return tile;
 
-    public void FindWalkableTiles()
-    {
-        ComputeNeighbours();
-        GetCurrentTile();
+	}
 
-        Queue<Tile> process = new Queue<Tile>();
+	public void ComputeNeighbours()
+	{
+		foreach (GameObject tile in tiles)
+		{
+			Tile t = tile.GetComponent<Tile>();
+			t.FindNeighbours(jumpHeight);
+		}
+	}
 
-        process.Enqueue(currentTile);
-        currentTile.visited = true;
+	public void FindWalkableTiles()
+	{
+		ComputeNeighbours();
+		GetCurrentTile();
 
-        while(process.Count > 0)
-        {
-            Tile t = process.Dequeue();
+		Queue<Tile> process = new Queue<Tile>();
 
-            walkableTiles.Add(t);
-            t.walkable = true;
+		process.Enqueue(currentTile);
+		currentTile.visited = true;
 
-            foreach (Tile tile in t.neighbours)
-            {
-                if (!tile.visited)
-                {
-                    tile.parent = t;
-                    tile.visited = true;
-                    process.Enqueue(tile);
-                }
-            }
-        }
-    }
+		while (process.Count > 0)
+		{
+			Tile t = process.Dequeue();
 
-    void CheckMouse()
-    {
+			walkableTiles.Add(t);
+			t.walkable = true;
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            RaycastHit hit;
+			foreach (Tile tile in t.neighbours)
+			{
+				if (!tile.visited)
+				{
+					tile.parent = t;
+					tile.visited = true;
+					process.Enqueue(tile);
+				}
+			}
+		}
+	}
 
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+	void CheckMouse()
+	{
 
-            if(Physics.Raycast(ray, out hit))
-            {
-                
-                if(hit.collider.tag == "Tile")
-                {
-                    Tile t = hit.collider.GetComponent<Tile>();
+		if (Input.GetMouseButtonDown(0))
+		{
+			RaycastHit hit;
 
-                    if (t.walkable)
-                    {
-                        MoveToTile(t);
-                    }
-                }
-            }
-        }
-        
+			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+			if (Physics.Raycast(ray, out hit, 1000, layerMask))
+			{
+
+				if (hit.collider.tag == "Tile")
+				{
+					Tile t = hit.collider.GetComponent<Tile>();
+
+					if (t.walkable)
+					{
+						MoveToTile(t);
+					}
+				}
+			}
+		}
 
 
 
-    }
 
-    void MoveToTile(Tile targetTile)
-    {
+	}
 
-        path.Clear();
-        targetTile.target = true;
+	void MoveToTile(Tile targetTile)
+	{
 
-        Tile next = targetTile;
+		path.Clear();
+		targetTile.target = true;
 
-        while(next != null)
-        {
-            path.Push(next);
-            next = next.parent;
-        }
-    }
+		Tile next = targetTile;
 
-    void Move()
-    {
-        if(path.Count > 0)
-        {
-            Tile t = path.Peek();
-            Vector3 targetPosition = t.transform.position;
+		while (next != null)
+		{
+			path.Push(next);
+			next = next.parent;
+		}
+	}
 
-            targetPosition.y += halfHeight;
+	void Move()
+	{
+		if (path.Count > 0)
+		{
+			Tile t = path.Peek();
+			Vector3 targetPosition = t.transform.position;
 
-            if(Vector3.Distance(targetPosition, transform.position) >= 0.05f)
-            {
-                CalculateHeading(targetPosition);
-                SetVelocity();
+			targetPosition.y += halfHeight;
 
-                transform.forward = headingDirection;
-                transform.position += velocity * Time.deltaTime;
-            }
-            else
-            {
-                transform.position = targetPosition;
-                path.Pop();
-            }
-        }
-        else
-        {
-            currentTile.current = false;
-            currentTile = null;
-        }
-    }
+			if (Vector3.Distance(targetPosition, transform.position) >= 0.05f)
+			{
+				CalculateHeading(targetPosition);
+				SetVelocity();
 
-    void CalculateHeading(Vector3 targetPosition)
-    {
-        headingDirection = targetPosition - transform.position;
-        headingDirection.Normalize();
-    }
+				transform.forward = headingDirection;
+				transform.position += velocity * Time.deltaTime;
 
-    void SetVelocity()
-    {
-        velocity = headingDirection * moveSpeed;
-    }
+			}
+			else
+			{
+				transform.position = targetPosition;
+				path.Pop();
+			}
+		}
+		else
+		{
+			currentTile.current = false;
+			currentTile = null;
+		}
+	}
+
+	void CalculateHeading(Vector3 targetPosition)
+	{
+		headingDirection = targetPosition - transform.position;
+		headingDirection.Normalize();
+	}
+
+	void SetVelocity()
+	{
+		velocity = headingDirection * moveSpeed;
+	}
 
 }

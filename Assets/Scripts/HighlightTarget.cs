@@ -6,6 +6,8 @@ public class HighlightTarget : MonoBehaviour
 {
 	Tile currentlyHighlightedTile = null;
 
+	public LayerMask layerMask;
+
 	void Update()
 	{
 
@@ -13,41 +15,42 @@ public class HighlightTarget : MonoBehaviour
 		RaycastHit hit;
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-		if (Physics.Raycast(ray, out hit))
+		if (Physics.Raycast(ray, out hit, 1000, layerMask))
 		{
-            Tile tile = hit.collider.gameObject.GetComponent<Tile>();
+
+			Tile tile = hit.collider.gameObject.GetComponent<Tile>();
 
 			if (tile != null && tile.walkable)
 			{
-
 				if (currentlyHighlightedTile != tile)
 				{
 					if (currentlyHighlightedTile != null)
 					{
-                        currentlyHighlightedTile.Unhighlight();
+						currentlyHighlightedTile.Unhighlight();
 					}
 
-                    currentlyHighlightedTile = tile;
+					currentlyHighlightedTile = tile;
 					tile.Highlight();
 				}
 
 			}
 			else
 			{
-                if(currentlyHighlightedTile != null)
-                {
-                    currentlyHighlightedTile.Unhighlight();
-                    currentlyHighlightedTile = null;
-                }
+				if (currentlyHighlightedTile != null)
+				{
+					currentlyHighlightedTile.Unhighlight();
+					currentlyHighlightedTile = null;
+				}
 			}
 
 		}
 		else
 		{
-            if (currentlyHighlightedTile != null)
-            {
-                currentlyHighlightedTile.Unhighlight();
-            }
+
+			if (currentlyHighlightedTile != null)
+			{
+				currentlyHighlightedTile.Unhighlight();
+			}
 		}
 
 
