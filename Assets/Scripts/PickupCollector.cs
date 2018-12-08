@@ -1,13 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-//using TMPro;
+using TMPro;
 using UnityEngine;
 
 
 public class PickupCollector : MonoBehaviour
 {
 
-	//TextMeshPro
+	public TextMeshProUGUI text;
+	int score = 0;
 
 	void Start()
 	{
@@ -23,10 +24,11 @@ public class PickupCollector : MonoBehaviour
 
 	void OnTriggerEnter(Collider other)
 	{
-		Debug.Log("kupeczka");
 		if (other.gameObject.CompareTag("Star Pickup"))
 		{
 			Destroy(other.gameObject);
+			score++;
+			text.text = score.ToString();
 		}
 
 	}

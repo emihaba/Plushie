@@ -36,7 +36,7 @@ GameObject:
   - component: {fileID: 4166424644173848}
   - component: {fileID: 33869783850960708}
   - component: {fileID: 23776633425312650}
-  - component: {fileID: 65002094605712806}
+  - component: {fileID: 65564796165350042}
   m_Layer: 0
   m_Name: komoda
   m_TagString: Untagged
@@ -114,7 +114,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1592185056902160}
   m_Mesh: {fileID: 4300000, guid: 495c6fa4ca71a9d4bb6b06993a24112f, type: 3}
---- !u!65 &65002094605712806
+--- !u!65 &65564796165350042
 BoxCollider:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}

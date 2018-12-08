@@ -7,7 +7,7 @@ public class Highlightable : MonoBehaviour
 	public Color highlightColor;
 	Color baseColor;
 	Color targetColor;
-	Renderer renderer;
+	new Renderer renderer;
 	public float colorTransitionSpeed = 10;
 
 	private void Awake()

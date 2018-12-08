@@ -28,7 +28,6 @@ public class PickupSpawner : MonoBehaviour
 			{
 				Tile spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
 
-				Debug.Log(spawnPoint.transform.position);
 				Instantiate(starPickup, spawnPoint.transform.position + new Vector3(0, 0.5f, 0), Quaternion.identity, spawnPoint.transform);
 				pickupsToSpawn--;
 
