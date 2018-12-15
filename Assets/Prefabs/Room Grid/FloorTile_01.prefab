@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4825041268197832}
   - component: {fileID: 33335715194789776}
   - component: {fileID: 23585786910592568}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SM_E_FloorTile_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 4990992724824662}
   - component: {fileID: 65629155561069244}
   - component: {fileID: 114068702641470368}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: FloorTile_01
   m_TagString: Tile
   m_Icon: {fileID: 0}

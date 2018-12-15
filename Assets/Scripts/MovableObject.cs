@@ -2,42 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MovableObject : MonoBehaviour {
+public class MovableObject : MonoBehaviour
+{
 
-    float distance;
-    Vector3 objPos;
+	public Vector3 targetPosition;
+	public float transitionSpeed = 10.0f;
 
-	// Use this for initialization
-	void Start () {
-		
+	void Awake()
+	{
+		targetPosition = transform.position;
 	}
-	
-	// Update is called once per frame
-	void OnMouseDrag () {
+
+	void Update()
+	{
+		transform.position = Vector3.Lerp(transform.position, targetPosition, transitionSpeed * Time.deltaTime);
+	}
 
 
-        RaycastHit hit;
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        {
-            if(Physics.Raycast(ray, out hit))
-            {
-                MovableObject obj = hit.collider.GetComponent<MovableObject>();
-
-                if(obj != null)
-                {
-                    distance = hit.distance;
-                    objPos = ray.origin + distance * ray.direction;
-                    obj.transform.position = new Vector3(objPos.x, obj.transform.position.y, objPos.z);
-
-                   // obj.transform.position = new Vector3(Mathf.Round(objPos.x), obj.transform.position.y, Mathf.Round(objPos.z));
-                    //obj.transform.position = new Vector3(Mathf.Round(obj.transform.position.x),obj.transform.position.y,Mathf.Round(obj.transform.position.z));
-
-
-                }
-            }
-        }
-
-
-    }
 }
