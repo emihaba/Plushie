@@ -5,6 +5,22 @@ using UnityEngine;
 public class Tile : MonoBehaviour
 {
 
+	public LevelObject levelObject;
+
+	public bool IsOccupied
+	{
+		get
+		{
+			return levelObject != null;
+		}
+	}
+
+	public int indexX;
+	public int indexY;
+
+
+
+
 	public bool walkable = false;
 	public bool current = false;
 	public bool target = false;
